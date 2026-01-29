@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ct7rmacwm6mr8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmany"]
+radius = 6.0
+height = 28.0
+
+[node name="World" type="Node2D" unique_id=1010279954]
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1736282491]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=133994220]
+position = Vector2(13, -21)
+shape = SubResource("CapsuleShape2D_cmany")
