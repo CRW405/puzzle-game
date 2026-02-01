@@ -1,7 +1,6 @@
 # Sand Simulator
 
-A falling sand physics simulator built with Godot 4.6. Watch particles fall, spread,
-and interact with realistic physics behavior.
+A falling sand physics simulator built with Godot 4.6.
 
 ## Controls
 
