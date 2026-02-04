@@ -1,30 +1,28 @@
+## ElementTypes - Element Type Registry
+##
+## Defines all element types in the simulation as integer constants.
+## Using integers instead of objects makes the simulation extremely fast:
+## - No object allocation overhead
+## - Cache-friendly memory layout
+## - Simple array storage
+##
+## This class also provides utility functions for getting element colors and names.
+
 extends RefCounted
 class_name ElementTypes
 
-# This class is so that we can associate an element with an int so 
-# that we can seperate the grid from individual element logic
-# Also defines how the elements look in the renderer
-
+# Element type constants
+# Each element is just an integer for maximum performance
+# The grid stores these integers directly
 enum {
-EMPTY,
-SAND,
-WALL,
-WATER
+	EMPTY,   # Air/void - particles fall through this
+	SAND,    # Falls and piles up
+	WALL,    # Static barrier
+	WATER    # Liquid - flows and spreads
 }
 
-static func create(element_type: int) -> Element:
-	match element_type:
-		EMPTY:
-			return Empty.new()
-		SAND:
-			return Sand.new()
-		WALL:
-			return Wall.new()
-		WATER:
-			return Water.new()
-		_:
-			return Empty.new()
-
+## Returns the display color for an element type
+## Used by UI and debugging - the actual rendering uses a texture atlas
 static func get_color(element_type: int) -> Color:
 	match element_type:
 		EMPTY:
@@ -34,10 +32,12 @@ static func get_color(element_type: int) -> Color:
 		WALL:
 			return Color.GRAY
 		WATER:
-			return Color.DODGER_BLUE
-		_:
+			return Color.BLUE
+		_:  # Default for unknown types
 			return Color.BLACK
 
+## Returns the display name for an element type
+## Used by the UI to show which element is currently selected
 static func get_element_name(element_type: int) -> String:
 	match element_type:
 		EMPTY:
@@ -48,5 +48,6 @@ static func get_element_name(element_type: int) -> String:
 			return "Wall"
 		WATER:
 			return "Water"
-		_:
+		_:  # Default for unknown types
 			return "Unknown"
+
