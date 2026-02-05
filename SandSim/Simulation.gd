@@ -4,10 +4,8 @@
 extends Node
 class_name Simulation
 
-## main matrix
 var matrix: Array = []
 
-## Sim Setup
 var grid_width: int
 var grid_height: int
 
@@ -19,7 +17,7 @@ func init(width: int, heigh: int):
 
 
 ## Move the sim forward, physics update
-func step():
+func stepAll():
 	pass
 
 

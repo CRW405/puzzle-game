@@ -3,14 +3,12 @@
 extends Node2D
 
 ## Setup
-# Grid Setup
 @export var grid_width: int = 100
 @export var grid_height: int = 100
 
 # Zoom / size of tile in tile map
 @export var tile_size: int = 5
 
-# Defualt brush size
 @export var brush_size: int = 1
 
 # How many steps of the sim to run per frame
