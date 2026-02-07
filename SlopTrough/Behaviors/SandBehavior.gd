@@ -66,7 +66,7 @@ static func step(x: int, y: int, grid: Array, grid_width: int, grid_height: int)
 			grid[y][x] = ElementTypes.EMPTY
 			return Vector2i(new_x, y + 1)
 		
-		# Sink diagonally through liquid
+		# Sink diagonally through liq euid
 		if diagonal == ElementTypes.WATER:
 			grid[y + 1][new_x] = ElementTypes.SAND
 			grid[y][x] = diagonal

@@ -15,8 +15,8 @@
 extends Node2D
 
 # Grid dimensions - how many cells in the simulation
-@export var grid_width: int = 125
-@export var grid_height: int = 125
+@export var grid_width: int = 320
+@export var grid_height: int = 180
 
 # Visual size of each cell in pixels
 @export var tile_size: int = 3
