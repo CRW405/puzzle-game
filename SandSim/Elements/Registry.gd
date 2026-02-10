@@ -2,12 +2,16 @@
 extends RefCounted
 class_name ElementRegistry
 
-enum {
+enum elements {
 	EMPTY,
 	WALL,
 	SAND,
 	WATER
 }
+
+# groups to simlify some lookups
+const UNMOVING: Array[int] = [EMPTY, WALL]
+const MOVING: Array[int] = [SAND, WATER]
 
 
 static func get_color(type: int) -> Color:
