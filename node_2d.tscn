@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b4sbgiy73lmil"]
 
-[ext_resource type="Script" uid="uid://cnpfted1no5cl" path="res://SlopTrough/WorldTileMap.gd" id="1_wtcfe"]
+[ext_resource type="Script" uid="uid://cg3jf6b08ap51" path="res://SandSim/World.gd" id="1_wtcfe"]
 
 [node name="Node2D" type="Node2D" unique_id=1287328016]
 

@@ -1,6 +1,6 @@
 ## Define element id, name, color, and assign behaviours
 extends RefCounted
-class_name ElementRegistry
+class_name Registry
 
 enum elements {
 	EMPTY,
@@ -10,19 +10,19 @@ enum elements {
 }
 
 # groups to simlify some lookups
-const UNMOVING: Array[int] = [EMPTY, WALL]
-const MOVING: Array[int] = [SAND, WATER]
+const UNMOVING: Array[int] = [elements.EMPTY, elements.WALL]
+const MOVING: Array[int] = [elements.SAND, elements.WATER]
 
 
 static func get_color(type: int) -> Color:
 	match type:
-		EMPTY:
+		elements.EMPTY:
 			return Color.BLACK
-		WALL:
-			return Color.GREY
-		SAND:
+		elements.WALL:
+			return Color.GRAY
+		elements.SAND:
 			return Color.YELLOW
-		WATER:
+		elements.WATER:
 			return Color.BLUE
 		_: # Defualt / Fallback
 			return Color.BLACK
@@ -30,13 +30,13 @@ static func get_color(type: int) -> Color:
 
 static func get_name(type: int) -> String:
 	match type:
-		EMPTY:
+		elements.EMPTY:
 			return "Empty"
-		WALL:
+		elements.WALL:
 			return "Wall"
-		SAND:
+		elements.SAND:
 			return "Sand"
-		WATER:
+		elements.WATER:
 			return "Water"
 		_: # Defualt / Fallback
 			return "Unknown"
@@ -45,7 +45,7 @@ static func get_name(type: int) -> String:
 ##  matches <element>behaviour to <element>
 static func get_behaviour(type: int, grid: Array, x: int, y: int, grid_width: int, grid_height: int):
 	match type:
-		SAND:
+		elements.SAND:
 			return Sand.step(grid, x, y, grid_width, grid_height)
 		_:
 			return

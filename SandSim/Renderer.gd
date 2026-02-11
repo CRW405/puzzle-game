@@ -6,8 +6,8 @@ class_name Renderer
 ## Tile Map Setup
 var map: TileMapLayer
 
-var grid_width: int
-var grid_height: int
+var matrix_width: int
+var matrix_height: int
 
 # size of tiles in pixels
 var tile_size: int
@@ -22,9 +22,9 @@ const SAND_COORD = Vector2i(2,0)
 const WATER_COORD = Vector2i(3,0)
 
 
-func init(width: int, height: int, size: int, parent: Node):
-	grid_width = width
-	grid_height = height
+func _init(width: int, height: int, size: int, parent: Node):
+	matrix_width = width
+	matrix_height = height
 	tile_size = size
 
 	map = TileMapLayer.new()
@@ -54,20 +54,33 @@ func create_tile_set() -> TileSet:
 	return tile_set
 
 
-func create_tecture_atlas: -> ImageTexture:
-	var atlas_width = tile_size * Registery.elements.length()
+func create_texture_atlas() -> ImageTexture:
+	var atlas_width = tile_size * Registry.elements.size()
 	var img = Image.create(atlas_width, tile_size, false, Image.FORMAT_RGBA8)
 
-	for element in elements:
+	for element in range(Registry.elements.size()):
 		var pos: int = tile_size * element
-		img.fill_rect(Rect2i(pos, 0, tile_size, tile_size), Registery.get_color(element))
+		img.fill_rect(Rect2i(pos, 0, tile_size, tile_size), Registry.get_color(element))
 	
-	return ImageTexture.create_from_image(image)
+	return ImageTexture.create_from_image(img)
 
 
-func update():
-	pass
+func update(matrix: Array):
+	for y in range(matrix_height):
+		for x in range(matrix_width):
+			var atlas_coord = get_atlas_coord(matrix[y][x])
+			map.set_cell(Vector2i(x,y), TILE_SOURCE_ID, atlas_coord)
 
 
-func get_atlas_coord():
-	pass
+func get_atlas_coord(cell: int):
+	match cell:
+		Registry.elements.EMPTY:
+			return EMPTY_COORD
+		Registry.elements.SAND:
+			return SAND_COORD
+		Registry.elements.WALL:
+			return WALL_COORD
+		Registry.elements.WATER:
+			return WATER_COORD
+		_:  # Default fallback for unknown types
+			return EMPTY_COORD
