@@ -28,7 +28,7 @@ static func get_color(type: int) -> Color:
 			return Color.BLACK
 
 
-static func get_name(type: int) -> String:
+static func get_element_name(type: int) -> String:
 	match type:
 		elements.EMPTY:
 			return "Empty"

@@ -7,10 +7,10 @@ var sim: Simulation
 var scale: int
 var brush_size: int
 var parent: Node2D
-var current_element: int
+var current_element: int = 2
 
 
-func _init(simulation: Simulation, pixel_scale: int, brush: int, p: Node2D):
+func initialize(simulation: Simulation, pixel_scale: int, brush: int, p: Node2D):
 	sim = simulation
 	scale = pixel_scale
 	brush_size = brush

@@ -22,7 +22,7 @@ const SAND_COORD = Vector2i(2,0)
 const WATER_COORD = Vector2i(3,0)
 
 
-func _init(width: int, height: int, size: int, parent: Node):
+func initialize(width: int, height: int, size: int, parent: Node):
 	matrix_width = width
 	matrix_height = height
 	tile_size = size
