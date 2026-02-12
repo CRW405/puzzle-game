@@ -1,8 +1,23 @@
 [gd_scene format=3 uid="uid://b4sbgiy73lmil"]
 
-[ext_resource type="Script" uid="uid://uejrgj6rwhpo" path="res://SandSim/WorldTileMap.gd" id="1_wtcfe"]
+[ext_resource type="Script" uid="uid://d2o5tibjsvbmx" path="res://SandSim/SimulationManager.gd" id="1_wtcfe"]
 
-[node name="Node2D" type="Node2D" unique_id=1287328016]
+[sub_resource type="QuadMesh" id="QuadMesh_0e48y"]
+size = Vector2(10, 10)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1450452638]
+[sub_resource type="MultiMesh" id="MultiMesh_epypp"]
+mesh = SubResource("QuadMesh_0e48y")
+
+[node name="ParticleSystem" type="Node2D" unique_id=1361354949]
 script = ExtResource("1_wtcfe")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="." unique_id=996236403]
+modulate = Color(0.9632172, 0.9576139, 0.961037, 1)
+multimesh = SubResource("MultiMesh_epypp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=870286329]
+
+[node name="StatsLabel" type="Label" parent="CanvasLayer" unique_id=350184152]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "FPS: 0"
