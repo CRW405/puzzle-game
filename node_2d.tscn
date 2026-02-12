@@ -6,6 +6,7 @@
 size = Vector2(10, 10)
 
 [sub_resource type="MultiMesh" id="MultiMesh_epypp"]
+use_colors = true
 mesh = SubResource("QuadMesh_0e48y")
 
 [node name="ParticleSystem" type="Node2D" unique_id=1361354949]
