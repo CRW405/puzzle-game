@@ -77,5 +77,6 @@ func _process(_delta):
 	sim.stepAll()
 	input.handle_input()
 
-	render.update(sim.matrix)
+	render.update_dirty(sim.matrix, sim.get_dirty_cells())
+	sim.clear_dirty()
 	update_ui()

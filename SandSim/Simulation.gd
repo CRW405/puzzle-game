@@ -10,6 +10,7 @@ var matrix_width: int
 var matrix_height: int
 var sim_steps: int
 var cell_count: int = 0
+var dirty_cells: Dictionary = {}  # Tracks cells that changed for dirty rendering
 
 #...
 
@@ -48,16 +49,35 @@ func stepAll():
 			if cell in Registry.MOVING:
 				Registry.get_behaviour(cell, matrix, x, y, matrix_width, matrix_height)
 	
-	# sim_steps += 1 # This is what causes the dithering, see the above alternation
+	# Merge dirty cells from Util
+	for pos in Util.dirty_cells.keys():
+		dirty_cells[pos] = true
+	Util.dirty_cells.clear()
+	
+	sim_steps += 1 # This is what causes the dithering, see the above alternation
 
 
 func set_cell(x: int, y: int, cell: int):
 	if x >= 0 and x < matrix_width and y >= 0 and y < matrix_height:
-		matrix[y][x] = cell
-		if cell != 0:
-			cell_count += 1
-		else:
-			cell_count -= 1
+		if matrix[y][x] != cell:
+			matrix[y][x] = cell
+			mark_dirty(x, y)
+			if cell != 0:
+				cell_count += 1
+			else:
+				cell_count -= 1
+
+
+func mark_dirty(x: int, y: int):
+	dirty_cells[Vector2i(x, y)] = true
+
+
+func get_dirty_cells() -> Dictionary:
+	return dirty_cells
+
+
+func clear_dirty():
+	dirty_cells.clear()
 
 
 func get_cell(x: int, y: int) -> int:

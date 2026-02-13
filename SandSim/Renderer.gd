@@ -72,6 +72,12 @@ func update(matrix: Array):
 			map.set_cell(Vector2i(x,y), TILE_SOURCE_ID, atlas_coord)
 
 
+func update_dirty(matrix: Array, dirty_cells: Dictionary):
+	for pos in dirty_cells.keys():
+		var atlas_coord = get_atlas_coord(matrix[pos.y][pos.x])
+		map.set_cell(pos, TILE_SOURCE_ID, atlas_coord)
+
+
 func get_atlas_coord(cell: int):
 	match cell:
 		Registry.elements.EMPTY:

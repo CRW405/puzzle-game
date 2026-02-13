@@ -24,12 +24,23 @@ func handle_input():
 		current_element = Registry.elements.SAND
 	elif Input.is_key_pressed(KEY_3):
 		current_element = Registry.elements.WATER
+
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		var pos = parent.get_global_mouse_position()
 		var matrix_x = int(pos.x / scale)
 		var matrix_y = int(pos.y / scale)
 
 		place(matrix_x, matrix_y)
+
+	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		var pos = parent.get_global_mouse_position()
+		var matrix_x = int(pos.x / scale)
+		var matrix_y = int(pos.y / scale)
+		
+		var prev_element = current_element
+		current_element = Registry.elements.EMPTY
+		place(matrix_x, matrix_y)
+		current_element = prev_element
 
 
 func place(matrix_x, matrix_y):
