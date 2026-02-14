@@ -42,14 +42,15 @@ func stepAll():
 
 		for x in range(start_x, end_x, step_x):
 			var cell = matrix[y][x]
-
+	
+			# unmoving elements do not need to be processed
 			if cell in Registry.UNMOVING:
 				continue
 			
 			if cell in Registry.MOVING:
 				Registry.get_behaviour(cell, matrix, x, y, matrix_width, matrix_height)
 	
-	# Merge dirty cells from Util
+	## Merge all dirties with new dirties
 	for pos in Util.dirty_cells.keys():
 		dirty_cells[pos] = true
 	Util.dirty_cells.clear()
@@ -62,6 +63,8 @@ func set_cell(x: int, y: int, cell: int):
 		if matrix[y][x] != cell:
 			matrix[y][x] = cell
 			mark_dirty(x, y)
+
+			# Count
 			if cell != 0:
 				cell_count += 1
 			else:

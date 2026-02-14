@@ -18,7 +18,7 @@ static func step(matrix: Array, x: int, y: int, matrix_width: int, matrix_height
 		return
 
 	## Sink
-	pass
+	pass # unimplemented
 
 	## Pile (move diagonally)
 	var diag = 1 if randi() % 2 == 0 else -1 # random int either 1 or -1
