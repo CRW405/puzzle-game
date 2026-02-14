@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://b4sbgiy73lmil"]
+[gd_scene format=3 uid="uid://b3j6w6ulwctf"]
 
-[ext_resource type="Script" uid="uid://uejrgj6rwhpo" path="res://SandSim/WorldTileMap.gd" id="1_wtcfe"]
+[ext_resource type="Script" uid="uid://cg3jf6b08ap51" path="res://SandSim/World.gd" id="1_wtcfe"]
 
 [node name="Node2D" type="Node2D" unique_id=1287328016]
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1450452638]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1841384275]
 script = ExtResource("1_wtcfe")
