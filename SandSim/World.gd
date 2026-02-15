@@ -9,10 +9,10 @@ extends Node2D
 # Zoom / size of tile in tile map
 @export var tile_size: int = 2
 
-@export var brush_size: int = 5
+@export var brush_size: int = 10
 
 # How many steps of the sim to run per frame
-@export var sim_speed: int = 1
+@export var sim_speed: int = 1 # Has pretty much no impact currently due to performance problems
 
 ## System setup
 var sim: Simulation 	# Physics
