@@ -10,7 +10,7 @@ var matrix_width: int
 var matrix_height: int
 var sim_steps: int
 var cell_count: int = 0
-var dirty_cells: Dictionary = {}  # Tracks cells that changed for dirty rendering
+var dirty_cells: PackedByteArray = PackedByteArray()  # Bitfield for dirty rendering
 
 ## Chunk-based sleep system
 const CHUNK_SIZE: int = 16 # 16 seems best from whar I've tinkered with
@@ -33,6 +33,10 @@ func initialize(width: int, height: int):
 	chunks_high = ceili(float(matrix_height) / CHUNK_SIZE)
 	chunk_activity.resize(chunks_wide * chunks_high)
 	chunk_activity.fill(0)
+	
+	# Initialize dirty cell bitfield
+	dirty_cells.resize(matrix_width * matrix_height)
+	dirty_cells.fill(0)
 
 
 ## Move the sim forward, physics update
@@ -80,9 +84,7 @@ func stepAll():
 	# Process dirty cells and wake chunks
 	for pos in Util.dirty_cells:
 		wake_chunk_at(pos.x, pos.y)
-	
-	## Merge all dirties with new dirties
-	dirty_cells.merge(Util.dirty_cells)
+		dirty_cells[pos.y * matrix_width + pos.x] = 1
 	Util.dirty_cells.clear()
 	
 	sim_steps += 1 # This is what causes the dithering, see the above alternation
@@ -104,15 +106,15 @@ func set_cell(x: int, y: int, cell: int):
 
 
 func mark_dirty(x: int, y: int):
-	dirty_cells[Vector2i(x, y)] = true
+	dirty_cells[y * matrix_width + x] = 1
 
 
-func get_dirty_cells() -> Dictionary:
+func get_dirty_cells() -> PackedByteArray:
 	return dirty_cells
 
 
 func clear_dirty():
-	dirty_cells.clear()
+	dirty_cells.fill(0)
 
 
 func get_cell(x: int, y: int) -> int:
