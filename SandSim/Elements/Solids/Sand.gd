@@ -1,7 +1,7 @@
 extends RefCounted
 class_name Sand
 
-static func step(matrix: Array, x: int, y: int, matrix_width: int, matrix_height: int):
+static func step(matrix: PackedInt32Array, x: int, y: int, matrix_width: int, matrix_height: int):
 	## If at bottom, do nothing
 	if y + 1 == matrix_height:
 		return   
@@ -9,12 +9,12 @@ static func step(matrix: Array, x: int, y: int, matrix_width: int, matrix_height
 	var this_el = Registry.elements.SAND
 	var empty = Registry.elements.EMPTY
 
-	var here = matrix[y][x]
-	var below = matrix[y + 1][x]
+	var here = matrix[y * matrix_width + x]
+	var below = matrix[(y + 1) * matrix_width + x]
 
 	## moving down
 	if below == empty:
-		Util.displace(matrix, x, y, x, y + 1, this_el, empty)
+		Util.displace(matrix, x, y, x, y + 1, this_el, empty, matrix_width)
 		return
 
 	## Sink
@@ -26,10 +26,10 @@ static func step(matrix: Array, x: int, y: int, matrix_width: int, matrix_height
 
 	## Attempt first choice as long as its inside the grid
 	if new_x >= 0 and new_x < matrix_width:
-		var new_pos = matrix[y + 1][new_x]
+		var new_pos = matrix[(y + 1) * matrix_width + new_x]
 
 		if new_pos == empty:
-			Util.displace(matrix, x, y, new_x, y + 1, this_el, empty)
+			Util.displace(matrix, x, y, new_x, y + 1, this_el, empty, matrix_width)
 			return
 
 		## Sink
@@ -37,7 +37,7 @@ static func step(matrix: Array, x: int, y: int, matrix_width: int, matrix_height
 	## repeat for other direction
 	new_x = x - diag
 	if new_x >= 0 and new_x < matrix_width:
-		var new_pos = matrix[y + 1][new_x]
+		var new_pos = matrix[(y + 1) * matrix_width + new_x]
 
 		if new_pos == empty:
-			Util.displace(matrix, x, y, new_x, y + 1, this_el, empty)
+			Util.displace(matrix, x, y, new_x, y + 1, this_el, empty, matrix_width)
