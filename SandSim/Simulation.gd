@@ -14,7 +14,7 @@ var dirty_cells: Dictionary = {}  # Tracks cells that changed for dirty renderin
 
 ## Chunk-based sleep system
 const CHUNK_SIZE: int = 16 # 16 seems best from whar I've tinkered with
-const SLEEP_THRESHOLD: int = 3  # Frames of inactivity before sleeping
+const SLEEP_THRESHOLD: int = 2  # Frames of inactivity before sleeping
 var chunks_wide: int
 var chunks_high: int
 var chunk_activity: PackedInt32Array  # Countdown timer per chunk (0 = sleeping)
