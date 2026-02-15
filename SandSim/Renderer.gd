@@ -65,16 +65,16 @@ func create_texture_atlas() -> ImageTexture:
 	return ImageTexture.create_from_image(img)
 
 
-func update(matrix: Array):
+func update(matrix: PackedInt32Array):
 	for y in range(matrix_height):
 		for x in range(matrix_width):
-			var atlas_coord = get_atlas_coord(matrix[y][x])
+			var atlas_coord = get_atlas_coord(matrix[y * matrix_width + x])
 			map.set_cell(Vector2i(x,y), TILE_SOURCE_ID, atlas_coord)
 
 
-func update_dirty(matrix: Array, dirty_cells: Dictionary):
+func update_dirty(matrix: PackedInt32Array, dirty_cells: Dictionary):
 	for pos in dirty_cells.keys():
-		var atlas_coord = get_atlas_coord(matrix[pos.y][pos.x])
+		var atlas_coord = get_atlas_coord(matrix[pos.y * matrix_width + pos.x])
 		map.set_cell(pos, TILE_SOURCE_ID, atlas_coord)
 
 

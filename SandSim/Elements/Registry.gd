@@ -43,7 +43,7 @@ static func get_element_name(type: int) -> String:
 
 
 ##  matches <element>behaviour to <element>
-static func get_behaviour(type: int, grid: Array, x: int, y: int, grid_width: int, grid_height: int):
+static func get_behaviour(type: int, grid: PackedInt32Array, x: int, y: int, grid_width: int, grid_height: int):
 	match type:
 		elements.SAND:
 			return Sand.step(grid, x, y, grid_width, grid_height)
