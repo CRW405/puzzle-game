@@ -9,7 +9,7 @@ extends Node2D
 # Zoom / size of tile in tile map
 @export var tile_size: int = 2
 
-@export var brush_size: int = 10
+@export var brush_size: int = 2
 
 # How many steps of the sim to run per frame
 @export var sim_speed: int = 1 # Has pretty much no impact currently due to performance problems
@@ -18,6 +18,7 @@ extends Node2D
 var sim: Simulation 	# Physics
 var render: Renderer 	# Appearence
 var input: InputHandler # Interaction
+var player: Player      # Player character
 
 ## UI Setup
 var fps_label: Label
@@ -39,6 +40,10 @@ func _ready():
 
 	input = InputHandler.new()
 	input.initialize(sim, tile_size, brush_size, self)
+
+	player = Player.new()
+	player.initialize(sim, tile_size)
+	add_child(player)
 
 	render.update(sim.matrix)
 
