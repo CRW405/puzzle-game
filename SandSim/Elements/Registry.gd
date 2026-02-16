@@ -12,6 +12,7 @@ enum elements {
 # groups to simlify some lookups
 const UNMOVING: Array[int] = [elements.EMPTY, elements.WALL]
 const MOVING: Array[int] = [elements.SAND, elements.WATER]
+const LIQUIDS: Array[int] = [elements.WATER]
 
 
 static func get_color(type: int) -> Color:
@@ -47,5 +48,7 @@ static func get_behaviour(type: int, grid: PackedInt32Array, x: int, y: int, gri
 	match type:
 		elements.SAND:
 			return Sand.step(grid, x, y, grid_width, grid_height)
+		elements.WATER:
+			return Water.step(grid, x, y, grid_width, grid_height)
 		_:
 			return

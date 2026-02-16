@@ -8,6 +8,7 @@ static func step(matrix: PackedInt32Array, x: int, y: int, matrix_width: int, ma
 	
 	var this_el = Registry.elements.SAND
 	var empty = Registry.elements.EMPTY
+	var liquids = Registry.LIQUIDS
 
 	var here = matrix[y * matrix_width + x]
 	var below = matrix[(y + 1) * matrix_width + x]
@@ -17,8 +18,10 @@ static func step(matrix: PackedInt32Array, x: int, y: int, matrix_width: int, ma
 		Util.displace(matrix, x, y, x, y + 1, this_el, empty, matrix_width)
 		return
 
-	## Sink
-	pass # unimplemented
+	## Sink through liquid
+	if below in liquids:
+		Util.displace(matrix, x, y, x, y + 1, this_el, below, matrix_width)
+		return
 
 	## Pile (move diagonally)
 	var diag = 1 if randi() % 2 == 0 else -1 # random int either 1 or -1
@@ -32,7 +35,10 @@ static func step(matrix: PackedInt32Array, x: int, y: int, matrix_width: int, ma
 			Util.displace(matrix, x, y, new_x, y + 1, this_el, empty, matrix_width)
 			return
 
-		## Sink
+		## Sink diagonally through liquids
+		if new_pos in liquids:
+			Util.displace(matrix, x, y, new_x, y + 1, this_el, new_pos, matrix_width)
+			return
 	
 	## repeat for other direction
 	new_x = x - diag
@@ -41,3 +47,8 @@ static func step(matrix: PackedInt32Array, x: int, y: int, matrix_width: int, ma
 
 		if new_pos == empty:
 			Util.displace(matrix, x, y, new_x, y + 1, this_el, empty, matrix_width)
+			return
+
+		## Sink diagonally through liquids
+		if new_pos in liquids:
+			Util.displace(matrix, x, y, new_x, y + 1, this_el, new_pos, matrix_width)

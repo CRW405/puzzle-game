@@ -72,10 +72,13 @@ func update(matrix: PackedInt32Array):
 			map.set_cell(Vector2i(x,y), TILE_SOURCE_ID, atlas_coord)
 
 
-func update_dirty(matrix: PackedInt32Array, dirty_cells: Dictionary):
-	for pos in dirty_cells.keys():
-		var atlas_coord = get_atlas_coord(matrix[pos.y * matrix_width + pos.x])
-		map.set_cell(pos, TILE_SOURCE_ID, atlas_coord)
+func update_dirty(matrix: PackedInt32Array, dirty_cells: PackedByteArray):
+	for idx in range(dirty_cells.size()):
+		if dirty_cells[idx] == 1:
+			var x = idx % matrix_width
+			var y = idx / matrix_width
+			var atlas_coord = get_atlas_coord(matrix[idx])
+			map.set_cell(Vector2i(x, y), TILE_SOURCE_ID, atlas_coord)
 
 
 func get_atlas_coord(cell: int):
