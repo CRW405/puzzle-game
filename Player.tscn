@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b7bk06yrot2vv"]
+
+[ext_resource type="Script" uid="uid://7oigr56y082s" path="res://Scripts/Player.gd" id="1_xhfnw"]
+[ext_resource type="Texture2D" uid="uid://bsmvr38fxj0q" path="res://Resources/player_texture.tres" id="2_kpjcp"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
+radius = 16.0
+height = 64.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=841247536]
+script = ExtResource("1_xhfnw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1178975580]
+texture = ExtResource("2_kpjcp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1341191469]
+shape = SubResource("CapsuleShape2D_kpjcp")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=614940055]
+
+[node name="StateMachine" type="Node" parent="." unique_id=72898367]
+
+[node name="CoyoteTimer" type="Timer" parent="." unique_id=428250375]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="." unique_id=277678993]
+wait_time = 0.1
+one_shot = true
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=423719806]
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=936576744]

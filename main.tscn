@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://cngmvhpkhqwj2"]
-
-[ext_resource type="Script" path="res://SandSim/World.gd" id="1_1"]
-
-[node name="Main" type="Node2D"]
-
-[node name="World" type="Node2D" parent="."]
-script = ExtResource("1_1")
