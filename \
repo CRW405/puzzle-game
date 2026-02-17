@@ -25,6 +25,15 @@ func handle_input():
 	elif Input.is_key_pressed(KEY_3):
 		current_element = Registry.elements.WATER
 
+	# Mouse wheel to change brush size (clamped 1..20)
+	if Input.is_action_pressed("MWU") or Input.is_action_pressed("MWD"):
+		# Use raw mouse scroll if available
+		var scroll = 0
+		scroll = 1 if Input.is_action_pressed("ui_scroll_up") else -1 if Input.is_action_pressed("ui_scroll_down") else 0
+
+		if scroll != 0:
+			brush_size = clamp(brush_size + (1 if scroll > 0 else -1), 1, 20)
+
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		var pos = parent.get_global_mouse_position()
 		var matrix_x = int(pos.x / scale)
@@ -42,9 +51,9 @@ func handle_input():
 		place(matrix_x, matrix_y)
 		current_element = prev_element
 
-
 func get_brush_size() -> int:
 	return brush_size
+
 
 func place(matrix_x, matrix_y):
 	if brush_size == 1:

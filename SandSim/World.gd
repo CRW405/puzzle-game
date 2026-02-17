@@ -9,7 +9,7 @@ extends Node2D
 # Zoom / size of tile in tile map
 @export var tile_size: int = 2
 
-@export var brush_size: int = 2
+@export var brush_size: int = 5
 
 # How many steps of the sim to run per frame
 @export var sim_speed: int = 1 # Has pretty much no impact currently due to performance problems
@@ -74,7 +74,7 @@ func update_ui():
 
 	cell_label.text = "Cell Count: %d" % sim.cell_count
 
-	selection_label.text = "Element: %d" % input.current_element
+	selection_label.text = "Element: %d | Brush: %d" % [input.current_element, input.get_brush_size()]
 
 
 ## Main game loop, runs every frame and tracks delta time

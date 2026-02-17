@@ -1,7 +1,3 @@
-
-
-## Player character - pixel-based movement with matrix collision
-## Just for proof of concept, this will not the be the final player controller, just something quick for a frame of reference
 extends Node2D
 class_name Player
 
@@ -10,6 +6,12 @@ class_name Player
 @export var gravity: float = 200.0
 @export var jump_velocity: float = -120.0
 @export var max_step_height: int = 2  # Max cells player can step up
+
+## Swim Setup
+@export var swim_speed: float = 40.0
+@export var swim_vertical_speed: float = 40.0
+@export var swim_drag: float = 6.0
+@export var swim_gravity_scale: float = 0.3
 
 ## References
 var sim: Simulation
@@ -42,24 +44,37 @@ func initialize(simulation: Simulation, t_size: int):
 func _process(delta):
 	if sim == null:
 		return
-	
-	handle_input()
+	handle_input(delta)
 	apply_gravity(delta)
 	move(delta)
 
 
-func handle_input():
+func handle_input(delta):
 	var input_dir = 0
 	if Input.is_action_pressed("ui_left") || Input.is_key_pressed(KEY_A):
 		input_dir -= 1
 	if Input.is_action_pressed("ui_right") || Input.is_key_pressed(KEY_D):
 		input_dir += 1
 	
-	velocity.x = input_dir * move_speed
+	var in_liquid = is_in_liquid(position.x, position.y)
+	if in_liquid:
+		velocity.x = input_dir * swim_speed
+	else:
+		velocity.x = input_dir * move_speed
 	
-	# Jump if on ground
-	if (Input.is_action_just_pressed("ui_up") || Input.is_key_pressed(KEY_W)) and is_on_ground():
-		velocity.y = jump_velocity
+	# Vertical swim control in liquids
+	if in_liquid:
+		var vdir = 0
+		if Input.is_action_pressed("ui_up") || Input.is_key_pressed(KEY_W):
+			vdir -= 1
+		if Input.is_action_pressed("ui_down") || Input.is_key_pressed(KEY_S):
+			vdir += 1
+		if vdir != 0:
+			velocity.y = vdir * swim_vertical_speed
+	else:
+		# Jump if on ground
+		if (Input.is_action_just_pressed("ui_up") || Input.is_key_pressed(KEY_W)) and is_on_ground():
+			velocity.y = jump_velocity
 	
 	# Respawn at top (R key)
 	if Input.is_key_pressed(KEY_R):
@@ -72,10 +87,17 @@ func respawn():
 
 
 func apply_gravity(delta):
-	if not is_on_ground():
-		velocity.y += gravity * delta
-	elif velocity.y > 0:
-		velocity.y = 0
+	var in_liquid = is_in_liquid(position.x, position.y)
+	if in_liquid:
+		# Reduced gravity and drag in liquid
+		velocity.y += gravity * delta * swim_gravity_scale
+		# Apply drag to slow movement
+		velocity = velocity.lerp(Vector2.ZERO, clamp(swim_drag * delta, 0, 1))
+	else:
+		if not is_on_ground():
+			velocity.y += gravity * delta
+		elif velocity.y > 0:
+			velocity.y = 0
 
 
 func move(delta):
@@ -126,31 +148,68 @@ func snap_to_ground(px: float, py: float) -> float:
 func is_ground_at(px: float, cell_y: int) -> bool:
 	var left = int(px - player_width / 2) / tile_size
 	var right = int(px + player_width / 2 - 1) / tile_size
-	return is_solid(left, cell_y) or is_solid(right, cell_y)
+	if left > right:
+		right = left
+	for x in range(left, right + 1):
+		if is_solid(x, cell_y):
+			return true
+	return false
 
 
-func can_move_to(px: float, py: float) -> bool:
-	# Check all corners of player hitbox against matrix
+func is_in_liquid(px: float, py: float) -> bool:
 	var left = int(px - player_width / 2) / tile_size
 	var right = int(px + player_width / 2 - 1) / tile_size
 	var top = int(py - player_height) / tile_size
 	var bottom = int(py - 1) / tile_size
-	
-	# Check each corner
-	if is_solid(left, top) or is_solid(right, top):
-		return false
-	if is_solid(left, bottom) or is_solid(right, bottom):
-		return false
-	
-	return true
+
+	if left > right:
+		right = left
+	if top > bottom:
+		bottom = top
+
+	for x in range(left, right + 1):
+		for y in range(top, bottom + 1):
+			var cell = sim.get_cell(x, y)
+			if cell in Registry.LIQUIDS:
+				return true
+	return false
+
+func overlaps_solid(px: float, py: float) -> bool:
+	# Check the entire player rectangle for any solid tiles
+	var left = int(px - player_width / 2) / tile_size
+	var right = int(px + player_width / 2 - 1) / tile_size
+	var top = int(py - player_height) / tile_size
+	var bottom = int(py - 1) / tile_size
+
+	if left > right:
+		right = left
+	if top > bottom:
+		bottom = top
+
+	for x in range(left, right + 1):
+		for y in range(top, bottom + 1):
+			if is_solid(x, y):
+				return true
+	return false
+
+
+func can_move_to(px: float, py: float) -> bool:
+	# Use full-rectangle overlap test
+	return not overlaps_solid(px, py)
 
 
 func is_on_ground() -> bool:
 	var left = int(position.x - player_width / 2) / tile_size
 	var right = int(position.x + player_width / 2 - 1) / tile_size
 	var feet_y = int(position.y) / tile_size
-	
-	return is_solid(left, feet_y) or is_solid(right, feet_y)
+
+	if left > right:
+		right = left
+
+	for x in range(left, right + 1):
+		if is_solid(x, feet_y):
+			return true
+	return false
 
 
 func is_solid(cell_x: int, cell_y: int) -> bool:
