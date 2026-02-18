@@ -28,6 +28,4 @@ one_shot = true
 wait_time = 0.1
 one_shot = true
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=423719806]
-
 [node name="Hitbox" type="Area2D" parent="." unique_id=936576744]
