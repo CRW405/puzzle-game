@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://cngmvhpkhqwj2"]
+
+[ext_resource type="Script" uid="uid://cg3jf6b08ap51" path="res://SandSim/World.gd" id="1_1"]
+[ext_resource type="Script" uid="uid://btrnsso8svukk" path="res://SandSim/Simulation.gd" id="2_fos0i"]
+[ext_resource type="Script" uid="uid://cuphvkv3ogbem" path="res://Player/Player.gd" id="2_uu6xs"]
+[ext_resource type="Script" uid="uid://dgf2xpo75c85b" path="res://SandSim/Renderer.gd" id="3_3dxm6"]
+[ext_resource type="Texture2D" uid="uid://mxt0ino8467d" path="res://bliss.jpg" id="4_3dxm6"]
+[ext_resource type="Script" uid="uid://bfctxt4laungc" path="res://SandSim/InputHandler.gd" id="4_lgr22"]
+
+[node name="Main" type="Node2D" unique_id=470380545]
+
+[node name="World" type="Node2D" parent="." unique_id=1720635808]
+unique_name_in_owner = true
+script = ExtResource("1_1")
+
+[node name="Renderer" type="Node2D" parent="World" unique_id=1856188717]
+unique_name_in_owner = true
+script = ExtResource("3_3dxm6")
+
+[node name="SimTileMapLayer" type="TileMapLayer" parent="World/Renderer" unique_id=1983977398]
+unique_name_in_owner = true
+
+[node name="Simulation" type="Node2D" parent="World" unique_id=837280858]
+unique_name_in_owner = true
+script = ExtResource("2_fos0i")
+
+[node name="Background" type="TextureRect" parent="World" unique_id=364844943]
+z_index = -100
+offset_right = 3840.0
+offset_bottom = 2160.0
+scale = Vector2(0.16651936, 0.16664428)
+texture = ExtResource("4_3dxm6")
+
+[node name="Player" type="Node2D" parent="." unique_id=337902213]
+unique_name_in_owner = true
+script = ExtResource("2_uu6xs")
+
+[node name="InputHandler" type="Node" parent="." unique_id=572490555]
+unique_name_in_owner = true
+script = ExtResource("4_lgr22")
+
+[node name="UI" type="Control" parent="." unique_id=1307480773]
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+offset_right = 648.0
+offset_bottom = 361.0
+
+[node name="FpsLabel" type="Label" parent="UI" unique_id=924783461]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 99.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 10
+text = "FPS: A Billion"
+
+[node name="CellLabel" type="Label" parent="UI" unique_id=759030964]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 16.0
+offset_right = 223.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 10
+text = "Cell Count: At Least A Couple"
+
+[node name="SelectionLabel" type="Label" parent="UI" unique_id=1260236887]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 32.000004
+offset_right = 274.0
+offset_bottom = 55.000004
+scale = Vector2(1, 0.96689487)
+theme_override_font_sizes/font_size = 10
+text = "Selection: Something Cool Probably"
+
+[node name="ColorRect" type="ColorRect" parent="UI" unique_id=1458725159]
+z_index = -10
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(4.3945556, 1.4128493)
+color = Color(0, 0, 0, 0.59607846)

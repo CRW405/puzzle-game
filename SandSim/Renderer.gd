@@ -1,6 +1,6 @@
 ## Main renderer, displays the sim as tiles on a tilemaplayer
 
-extends Node
+extends Node2D
 class_name Renderer
 
 ## Tile Map Setup
@@ -15,7 +15,6 @@ var tile_size: int
 ## Tile set setup
 ## This is for a tile set that controls the look of the displayed elements
 const TILE_SOURCE_ID = 0
-#const <ELEMENT>ATLAS_COORD = Vector2i(<i>, 0) # How to add new tile
 const EMPTY_COORD = Vector2i(0,0)
 const WALL_COORD = Vector2i(1,0)
 const SAND_COORD = Vector2i(2,0)
@@ -27,10 +26,8 @@ func initialize(width: int, height: int, size: int, parent: Node):
 	matrix_height = height
 	tile_size = size
 
-	map = TileMapLayer.new()
+	map = %SimTileMapLayer
 	map.tile_set = create_tile_set()
-
-	parent.add_child(map)
 
 
 func create_tile_set() -> TileSet:
@@ -91,5 +88,5 @@ func get_atlas_coord(cell: int):
 			return WALL_COORD
 		Registry.elements.WATER:
 			return WATER_COORD
-		_:  # Default fallback for unknown types
+		_:  # Default fallback for unknown types which should be impossible anyways
 			return EMPTY_COORD

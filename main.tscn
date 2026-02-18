@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://cngmvhpkhqwj2"]
-
-[ext_resource type="Script" uid="uid://cg3jf6b08ap51" path="res://SandSim/World.gd" id="1_1"]
-
-[node name="Main" type="Node2D" unique_id=470380545]
-
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1613621161]
-script = ExtResource("1_1")

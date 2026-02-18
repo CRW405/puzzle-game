@@ -18,7 +18,7 @@ const LIQUIDS: Array[int] = [elements.WATER]
 static func get_color(type: int) -> Color:
 	match type:
 		elements.EMPTY:
-			return Color.BLACK
+			return Color.TRANSPARENT
 		elements.WALL:
 			return Color.GRAY
 		elements.SAND:
@@ -26,7 +26,7 @@ static func get_color(type: int) -> Color:
 		elements.WATER:
 			return Color.BLUE
 		_: # Defualt / Fallback
-			return Color.BLACK
+			return Color.PURPLE
 
 
 static func get_element_name(type: int) -> String:

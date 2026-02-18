@@ -2,7 +2,7 @@
 ## stores and performs actions on the matrix
 
 class_name Simulation
-extends Node
+extends Node2D
 
 ## Setup
 var matrix: PackedInt32Array = PackedInt32Array()
@@ -18,8 +18,6 @@ const SLEEP_THRESHOLD: int = 2  # Frames of inactivity before sleeping
 var chunks_wide: int
 var chunks_high: int
 var chunk_activity: PackedInt32Array  # Countdown timer per chunk (0 = sleeping)
-
-#...
 
 
 func initialize(width: int, height: int):
@@ -41,7 +39,6 @@ func initialize(width: int, height: int):
 
 ## Move the sim forward, physics update
 func stepAll():
-	# Cache registry lookups
 	var unmoving = Registry.UNMOVING
 	var moving = Registry.MOVING
 	
@@ -50,7 +47,7 @@ func stepAll():
 		if chunk_activity[i] > 0:
 			chunk_activity[i] -= 1
 	
-	# alternates start for more natual looking physics 
+	# alternates start for more natural looking physics 
 	var start_y = matrix_height - 2 if sim_steps % 2 == 0 else matrix_height - 1
 
 	# process bottom to top so we dont get weird gravity
@@ -59,7 +56,7 @@ func stepAll():
 		
 		## more alternation, in conjuction with the alternating y, 
 		## we get a checkerboard pattern which helps to make the physics 
-		## seem a little more natural and less 'stilted'
+		## seem a little more natural
 		var left_to_right = (y + sim_steps) % 2 == 0
 		var start_x = 0 if left_to_right else matrix_width - 1
 		var end_x = matrix_width if left_to_right else -1
@@ -74,7 +71,7 @@ func stepAll():
 			
 			var cell = matrix[y * matrix_width + x]
 	
-			# unmoving elements do not need to be processed
+			# unmoving elements do not need to be processed directly
 			if cell in unmoving:
 				continue
 			

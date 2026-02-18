@@ -42,9 +42,10 @@ static func step(matrix: PackedInt32Array, x: int, y: int, matrix_width: int, ma
 static func try_spread(matrix: PackedInt32Array, x: int, y: int, matrix_width: int):
 	var this_el = Registry.elements.WATER
 	var empty = Registry.elements.EMPTY
+	var spread_amount = 10
 	
 	# Try spreading multiple cells in one step for faster flow
-	var spread_distance = randi_range(1, 5)
+	var spread_distance = randi_range(1, spread_amount)
 	var dir = 1 if randi() % 2 == 0 else -1
 	
 	# Find furthest empty cell in chosen direction

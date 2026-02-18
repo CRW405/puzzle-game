@@ -5,45 +5,40 @@ extends Node2D
 ## Setup
 @export var matrix_width: int = 320
 @export var matrix_height: int = 180
-
 # Zoom / size of tile in tile map
 @export var tile_size: int = 2
 
-@export var brush_size: int = 5
+@export var brush_size: int = 2
 
 # How many steps of the sim to run per frame
-@export var sim_speed: int = 1 # Has pretty much no impact currently due to performance problems
+@export var sim_speed: int = 1
 
 ## System setup
-var sim: Simulation 	# Physics
-var render: Renderer 	# Appearence
-var input: InputHandler # Interaction
-var player: Player      # Player character
+@onready var sim: Simulation		# Physics
+@onready var render: Renderer 		# Appearence
+@onready var input: InputHandler 	# Interaction
+@onready var player: Player      	# Player character
 
 ## UI Setup
 var fps_label: Label
-# var fps: int = 0
 var cell_label: Label
-# var cell_count: int = 0
 var selection_label: Label
-# var selection: int = 1
 
-# ...
 
 ## When node is ready / loaded, perform setup
 func _ready():
-	sim = Simulation.new()
+	sim = %Simulation
 	sim.initialize(matrix_width, matrix_height)
 
-	render = Renderer.new()
+	render = %Renderer
 	render.initialize(matrix_width, matrix_height, tile_size, self)
 
-	input = InputHandler.new()
+	input = %InputHandler
 	input.initialize(sim, tile_size, brush_size, self)
 
-	player = Player.new()
+	player = %Player
 	player.initialize(sim, tile_size)
-	add_child(player)
+	# add_child(player)
 
 	render.update(sim.matrix)
 
@@ -51,20 +46,11 @@ func _ready():
 
 
 func setup_ui():
-	fps_label = Label.new()
-	fps_label.position = Vector2(10,10)
-	fps_label.add_theme_color_override("font_color", Color.WHITE)
-	add_child(fps_label)
+	fps_label = %FpsLabel
 
-	cell_label = Label.new()
-	cell_label.position = Vector2(10, 30)
-	cell_label.add_theme_color_override("font_color", Color.WHITE)
-	add_child(cell_label)
+	cell_label = %CellLabel
 	
-	selection_label = Label.new()
-	selection_label.position = Vector2(10, 50)
-	selection_label.add_theme_color_override("font_color", Color.WHITE)
-	add_child(selection_label)
+	selection_label = %SelectionLabel
 
 	update_ui()
 
